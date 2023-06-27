@@ -10,6 +10,11 @@
     "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
+    "baseUrl": "src",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/lib/*": ["lib/*"]
+    },
 
     // Add the rule below
     "moduleResolution": "node",
