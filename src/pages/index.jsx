@@ -4,11 +4,24 @@ import PropTypes from "prop-types"
 import { ABI, DEFAULT_CONTRACT_ADDRESS } from "../config/constant"
 import { ethers } from "ethers"
 import List from "../components/list/List"
+import { Pencil2Icon } from "@radix-ui/react-icons"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
 
 function HomePage() {
   return (
     <div>
       <h1 className="m-4 text-4xl font-bold">Contributions</h1>
+      <div className="m-4 flex flex-row items-center text-gray-400">
+        <p>{`Points = 60 * hours spent * N, make N < 1 if you are not skilled on the contribution, N > 1 if you make a big difference.`}</p>
+        <Pencil2Icon className="h-4 w-4" />
+      </div>
+      <div className="m-4 grid gap-2">
+        <Textarea placeholder="Example: I developed sign in with wallet feature. #120 #pow: https: //notion.so/1234 #Cc@Tony @Bruce" />
+        <div className="flex flex-row-reverse">
+          <Button className="bg-teal-400 hover:bg-teal-600">Add</Button>
+        </div>
+      </div>
       <div className="flex flex-col justify-center items-center">
         <List />
         <List />
