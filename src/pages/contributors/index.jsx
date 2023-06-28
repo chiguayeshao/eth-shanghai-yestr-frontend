@@ -1,5 +1,5 @@
 import React from "react"
-import ContributorsTable from "../../components/contributorsTable/contributorsTable"
+import ContributorsTable from "../../components/contributorsTable/ContributorsTable"
 
 const Contributors = () => {
   return (
