@@ -5,12 +5,15 @@ import { ABI, DEFAULT_CONTRACT_ADDRESS } from "../config/constant"
 import { ethers } from "ethers"
 import List from "../components/list/List"
 
-function HomePage(props) {
+function HomePage() {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h1>The Home Page</h1>
-      <h2>{`The static props value from contract: ${props.name}`}</h2>
-      <List />
+    <div>
+      <h1 className="m-4 text-4xl font-bold">Contributions</h1>
+      <div className="flex flex-col justify-center items-center">
+        <List />
+        <List />
+        <List />
+      </div>
     </div>
   )
 }

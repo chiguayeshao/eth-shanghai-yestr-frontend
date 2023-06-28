@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button"
 
 const List = () => {
   return (
-    <div>
+    <div className="m-4">
       <Card>
         <div className="flex flex-row">
           <CardHeader>
