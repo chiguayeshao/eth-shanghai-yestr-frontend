@@ -19,10 +19,8 @@ const SideBar = () => {
     if (router.pathname === "/") {
       setActiveItem("Contributions")
     } else {
-      setActiveItem(
-        router.pathname.slice(1).charAt(0).toUpperCase() +
-          router.pathname.slice(2)
-      )
+      const mainRoute = router.pathname.split("/")[1]
+      setActiveItem(mainRoute.charAt(0).toUpperCase() + mainRoute.slice(1))
     }
   }, [router.pathname])
 
