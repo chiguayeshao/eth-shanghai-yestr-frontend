@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { CaretSortIcon } from "@radix-ui/react-icons"
+import { CaretSortIcon, PlusIcon } from "@radix-ui/react-icons"
 import {
   flexRender,
   getCoreRowModel,
@@ -8,9 +8,29 @@ import {
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -19,6 +39,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+import { useForm } from "react-hook-form"
 
 const data = [
   {
@@ -125,7 +146,7 @@ export const columns = [
 
 const ContributorsTable = () => {
   const [sorting, setSorting] = useState([])
-
+  const form = useForm()
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
@@ -149,9 +170,13 @@ const ContributorsTable = () => {
     }
   })
 
+  const onSubmit = (value) => {
+    console.log(value)
+  }
+
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex justify-between items-center py-4">
         <Input
           placeholder="Search by name or wallet address"
           value={table.getColumn("recentlyActive")?.getFilterValue() ?? ""}
@@ -162,7 +187,45 @@ const ContributorsTable = () => {
           }
           className="max-w-sm"
         />
-        <Button>Add contributor</Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="outline">
+              <PlusIcon className="mr-2 h-4 w-4" />
+              Add contributor
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-2">
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Pietro Schirano" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                      <FormLabel>ETH Wallet</FormLabel>
+                      <FormControl>
+                        <Input placeholder="0x..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction type="submit">Add</AlertDialogAction>
+                </AlertDialogFooter>
+              </form>
+            </Form>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
       <div className="rounded-md border">
         <Table>
