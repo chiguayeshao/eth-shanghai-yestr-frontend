@@ -14,8 +14,31 @@ import {
   Pencil2Icon
 } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { useForm } from "react-hook-form"
 
 const ContributorDetail = () => {
+  const form = useForm()
+  const onSubmit = (value) => {
+    console.log(value)
+  }
   return (
     <div className="m-4">
       <Card>
@@ -38,9 +61,84 @@ const ContributorDetail = () => {
                         Tony
                       </CardDescription>
                     </div>
-                    <Button variant="outline">
-                      <Pencil2Icon className="mr-2 h-4 w-4" /> Edit
-                    </Button>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="outline">
+                          <Pencil2Icon className="mr-2 h-4 w-4" /> Edit
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <Form {...form}>
+                          <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-8"
+                          >
+                            <FormField
+                              control={form.control}
+                              name="avatar"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col gap-2">
+                                  <div className="flex flex-row items-end gap-4">
+                                    <Avatar className="rounded-sm h-16 w-16">
+                                      <AvatarImage src="https://github.com/shadcn.png" />
+                                      <AvatarFallback>CN</AvatarFallback>
+                                    </Avatar>
+                                    <FormControl>
+                                      <Input
+                                        placeholder="Select File"
+                                        type="file"
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                  </div>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="username"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col gap-2">
+                                  <FormLabel>Name</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Pietro Schirano"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="bio"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col gap-2">
+                                  <FormLabel>About</FormLabel>
+                                  <FormControl>
+                                    <Textarea
+                                      placeholder="Introduce youself here"
+                                      className="resize-none"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction type="submit">
+                                Add
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </form>
+                        </Form>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                   <p>0xf7e8sdjknksb786a66kfnnsgvt68Ca790x</p>
                 </div>

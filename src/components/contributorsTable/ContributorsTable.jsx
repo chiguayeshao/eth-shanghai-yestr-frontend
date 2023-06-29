@@ -198,7 +198,7 @@ const ContributorsTable = () => {
               >
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="name"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-2">
                       <FormLabel>Name</FormLabel>
@@ -206,6 +206,14 @@ const ContributorsTable = () => {
                         <Input placeholder="Pietro Schirano" {...field} />
                       </FormControl>
                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="wallet"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-2">
                       <FormLabel>ETH Wallet</FormLabel>
                       <FormControl>
                         <Input placeholder="0x..." {...field} />
