@@ -1,5 +1,5 @@
 // Landing page
-import React from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { ABI, DEFAULT_CONTRACT_ADDRESS } from "../config/constant"
 import { ethers } from "ethers"
@@ -7,8 +7,24 @@ import List from "../components/list/List"
 import { Pencil2Icon } from "@radix-ui/react-icons"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import useWebSocket from "../hooks/useWebSocket"
 
 function HomePage() {
+  const onMessage = (content, message) => {
+    console.log("Message from server", content)
+    console.log("Message details", message)
+    // 在这里处理消息，并更新你的组件状态或执行其他操作
+  }
+  const socket = useWebSocket("wss://humanpow.bitpow.org/relay", onMessage)
+
+  useEffect(() => {
+    return () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.close()
+      }
+    }
+  }, [socket])
+
   return (
     <div>
       <h1 className="m-4 text-4xl font-bold">Contributions</h1>
