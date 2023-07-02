@@ -27,7 +27,6 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { SketchLogoIcon, ChevronDownIcon } from "@radix-ui/react-icons"
-import useGetData from "../../hooks/useGetData"
 
 const data = [
   {
@@ -123,12 +122,6 @@ const DashboardTable = () => {
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
-
-  const { a, loading, error } = useGetData(
-    "https://humanpow.bitpow.org/api/dashboard"
-  )
-
-  console.log(a, "a")
 
   const table = useReactTable({
     data,
