@@ -8,10 +8,17 @@ import { Button } from "@/components/ui/button"
 const Detail = () => {
   const router = useRouter()
   const { contributor } = router.query
+  const handleBackClick = () => {
+    router.push("/contributors")
+  }
 
   return (
     <div>
-      <Button variant="ghost" className="flex flex-row items-center">
+      <Button
+        variant="ghost"
+        className="flex flex-row items-center"
+        onClick={handleBackClick}
+      >
         <ChevronLeftIcon className="mr-2 h-4 w-4" />
         <p>Back</p>
       </Button>

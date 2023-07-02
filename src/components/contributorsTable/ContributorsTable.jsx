@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useRouter } from "next/router"
 import { CaretSortIcon, PlusIcon } from "@radix-ui/react-icons"
 import {
   flexRender,
@@ -41,7 +42,7 @@ const data = [
   {
     id: "m5gr84i9",
     amount: 316,
-    name: "success",
+    name: "Bruce Xu",
     address: "0xf7e8...Ca79",
     role: "Project Management",
     recentlyActive: "Jul 7, 2023",
@@ -50,7 +51,7 @@ const data = [
   {
     id: "3u1reuv4",
     amount: 242,
-    name: "success",
+    name: "Bruce Xu",
     address: "0xf7e8...Ca79",
     role: "Project Management",
     recentlyActive: "Jul 6, 2023",
@@ -59,7 +60,7 @@ const data = [
   {
     id: "derv1ws0",
     amount: 837,
-    name: "processing",
+    name: "Bruce Xu",
     address: "0xf7e8...Ca79",
     role: "Project Management",
     recentlyActive: "Jul 6, 2023",
@@ -68,7 +69,7 @@ const data = [
   {
     id: "5kma53ae",
     amount: 874,
-    name: "success",
+    name: "Bruce Xu",
     address: "0xf7e8...Ca79",
     role: "Project Management",
     recentlyActive: "Jul 6, 2023",
@@ -77,66 +78,11 @@ const data = [
   {
     id: "bhqecj4p",
     amount: 721,
-    name: "failed",
+    name: "Bruce Xu",
     address: "0xf7e8...Ca79",
     role: "Project Management",
     recentlyActive: "Jul 6, 2023",
     joinedTime: "Jul 6, 2023"
-  }
-]
-
-export const columns = [
-  {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        <div className="flex flex-row items-center gap-4">
-          <Avatar className="rounded-sm h-16 w-16">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          {row.getValue("name")}
-        </div>
-      </div>
-    )
-  },
-  {
-    accessorKey: "address",
-    header: "ETH Wallet",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("address")}</div>
-    )
-  },
-  {
-    accessorKey: "role",
-    header: "Role",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("role")}</div>
-  },
-  {
-    accessorKey: "recentlyActive",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="p-0"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Recently active
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("recentlyActive")}</div>
-    )
-  },
-  {
-    accessorKey: "joinedTime",
-    header: "Joined time",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("joinedTime")}</div>
-    )
   }
 ]
 
@@ -146,6 +92,75 @@ const ContributorsTable = () => {
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
+
+  const router = useRouter()
+  const handleUserClick = (e) => {
+    router.push(`/contributors/${e}`)
+  }
+
+  const columns = [
+    {
+      accessorKey: "name",
+      header: "Name",
+      cell: ({ row }) => (
+        <div className="capitalize">
+          <div className="flex flex-row items-center gap-4">
+            <Avatar className="rounded-sm h-16 w-16">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <Button
+              variant="link"
+              onClick={() => handleUserClick(row.getValue("address"))}
+            >
+              {row.getValue("name")}
+            </Button>
+          </div>
+        </div>
+      )
+    },
+    {
+      accessorKey: "address",
+      header: "ETH Wallet",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("address")}</div>
+      )
+    },
+    {
+      accessorKey: "role",
+      header: "Role",
+      cell: ({ row }) => (
+        <Button variant="secondary" className="capitalize">
+          {row.getValue("role")}
+        </Button>
+      )
+    },
+    {
+      accessorKey: "recentlyActive",
+      header: ({ column }) => {
+        return (
+          <Button
+            className="p-0"
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Recently active
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("recentlyActive")}</div>
+      )
+    },
+    {
+      accessorKey: "joinedTime",
+      header: "Joined time",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("joinedTime")}</div>
+      )
+    }
+  ]
 
   const table = useReactTable({
     data,
