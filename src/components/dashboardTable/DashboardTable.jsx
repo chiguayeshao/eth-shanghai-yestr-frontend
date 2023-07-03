@@ -33,35 +33,35 @@ const data = [
   {
     id: "m5gr84i9",
     amount: 316,
-    name: "success",
+    name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   },
   {
     id: "3u1reuv4",
     amount: 242,
-    name: "success",
+    name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   },
   {
     id: "derv1ws0",
     amount: 837,
-    name: "processing",
+    name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   },
   {
     id: "5kma53ae",
     amount: 874,
-    name: "success",
+    name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   },
   {
     id: "bhqecj4p",
     amount: 721,
-    name: "failed",
+    name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   }

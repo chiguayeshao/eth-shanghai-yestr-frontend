@@ -12,8 +12,6 @@ const useGetData = (url) => {
 
         if (response.ok) {
           const json = await response.json()
-          console.log(json, "json")
-
           setData(json)
         } else {
           throw new Error("Error fetching data")
@@ -27,6 +25,8 @@ const useGetData = (url) => {
 
     fetchData()
   }, [url])
+
+  console.log(data, "data")
 
   return { data, loading, error }
 }
