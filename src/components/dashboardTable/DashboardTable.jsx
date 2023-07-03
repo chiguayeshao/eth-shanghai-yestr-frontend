@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { CaretSortIcon } from "@radix-ui/react-icons"
 import {
   flexRender,
@@ -29,61 +29,28 @@ import {
 import { SketchLogoIcon, ChevronDownIcon } from "@radix-ui/react-icons"
 import useGetData from "../../hooks/useGetData"
 
-const data = [
-  {
-    id: "m5gr84i9",
-    name: "Bruce Xu",
-    percent: "35.55%",
-    points: "240"
-  },
-  {
-    id: "3u1reuv4",
-    name: "Bruce Xu",
-    percent: "35.55%",
-    points: "240"
-  },
-  {
-    id: "derv1ws0",
-    name: "Bruce Xu",
-    percent: "35.55%",
-    points: "240"
-  },
-  {
-    id: "5kma53ae",
-    name: "Bruce Xu",
-    percent: "35.55%",
-    points: "240"
-  },
-  {
-    id: "bhqecj4p",
-    name: "Bruce Xu",
-    percent: "35.55%",
-    points: "240"
-  }
-]
-
 const DashboardTable = () => {
   const [sorting, setSorting] = useState([])
 
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
+  const [data, setData] = useState([])
 
   const { getData } = useGetData("https://humanpow.bitpow.org/api/dashboard")
-  console.log(getData, "getData")
-
-  if (getData) {
-    const result = Object.values(getData.users).map((item) => {
-      return {
-        id: item.addr,
-        ...item,
-        role: "Project Management",
-        recentlyActive: "Jul 6, 2023",
-        joinedTime: "Jul 6, 2023"
-      }
-    })
-    console.log(result, "result")
-  }
+  useEffect(() => {
+    if (getData) {
+      const result = Object.values(getData.users).map((item) => {
+        return {
+          id: item.addr,
+          name: item.profile.name,
+          percent: "35.55%",
+          points: item.points
+        }
+      })
+      setData(result)
+    }
+  }, [getData])
 
   const columns = [
     {
