@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 
 const useGetData = (url) => {
-  const [data, setData] = useState(null)
+  const [getData, setGetData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -12,7 +12,7 @@ const useGetData = (url) => {
 
         if (response.ok) {
           const json = await response.json()
-          setData(json)
+          setGetData(json)
         } else {
           throw new Error("Error fetching data")
         }
@@ -26,9 +26,7 @@ const useGetData = (url) => {
     fetchData()
   }, [url])
 
-  console.log(data, "data")
-
-  return { data, loading, error }
+  return { getData, loading, error }
 }
 
 export default useGetData

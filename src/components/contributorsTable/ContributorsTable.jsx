@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { CaretSortIcon, PlusIcon } from "@radix-ui/react-icons"
 import {
@@ -37,54 +37,7 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { useForm } from "react-hook-form"
-
-const data = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    name: "Bruce Xu",
-    address: "0xf7e8...Ca79",
-    role: "Project Management",
-    recentlyActive: "Jul 7, 2023",
-    joinedTime: "Jul 6, 2023"
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    name: "Bruce Xu",
-    address: "0xf7e8...Ca79",
-    role: "Project Management",
-    recentlyActive: "Jul 6, 2023",
-    joinedTime: "Jul 6, 2023"
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    name: "Bruce Xu",
-    address: "0xf7e8...Ca79",
-    role: "Project Management",
-    recentlyActive: "Jul 6, 2023",
-    joinedTime: "Jul 6, 2023"
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    name: "Bruce Xu",
-    address: "0xf7e8...Ca79",
-    role: "Project Management",
-    recentlyActive: "Jul 6, 2023",
-    joinedTime: "Jul 6, 2023"
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    name: "Bruce Xu",
-    address: "0xf7e8...Ca79",
-    role: "Project Management",
-    recentlyActive: "Jul 6, 2023",
-    joinedTime: "Jul 6, 2023"
-  }
-]
+import useGetData from "../../hooks/useGetData"
 
 const ContributorsTable = () => {
   const [sorting, setSorting] = useState([])
@@ -92,11 +45,30 @@ const ContributorsTable = () => {
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
+  const [data, setData] = useState([])
 
   const router = useRouter()
   const handleUserClick = (e) => {
     router.push(`/contributors/${e}`)
   }
+
+  const { getData } = useGetData("https://humanpow.bitpow.org/api/contributors")
+  useEffect(() => {
+    if (getData && data.length === 0) {
+      const result = Object.values(getData.users)
+        .filter((item) => item.name)
+        .map((item) => {
+          return {
+            id: item.addr,
+            ...item,
+            role: "Project Management",
+            recentlyActive: "Jul 6, 2023",
+            joinedTime: "Jul 6, 2023"
+          }
+        })
+      setData(result)
+    }
+  }, [getData, data])
 
   const columns = [
     {
@@ -120,10 +92,10 @@ const ContributorsTable = () => {
       )
     },
     {
-      accessorKey: "address",
+      accessorKey: "addr",
       header: "ETH Wallet",
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("address")}</div>
+        <div className="capitalize">{row.getValue("addr")}</div>
       )
     },
     {

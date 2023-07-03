@@ -32,91 +32,36 @@ import useGetData from "../../hooks/useGetData"
 const data = [
   {
     id: "m5gr84i9",
-    amount: 316,
     name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   },
   {
     id: "3u1reuv4",
-    amount: 242,
     name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   },
   {
     id: "derv1ws0",
-    amount: 837,
     name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   },
   {
     id: "5kma53ae",
-    amount: 874,
     name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   },
   {
     id: "bhqecj4p",
-    amount: 721,
     name: "Bruce Xu",
     percent: "35.55%",
     points: "240"
   }
 ]
 
-export const columns = [
-  {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        <div className="flex flex-row items-center gap-4">
-          <Avatar className="rounded-sm h-16 w-16">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          {row.getValue("name")}
-        </div>
-      </div>
-    )
-  },
-  {
-    accessorKey: "percent",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="p-0"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          %
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("percent")}</div>
-    )
-  },
-  {
-    accessorKey: "points",
-    header: "Points earned",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        <Button
-          variant="outline"
-          className="bg-orange-100 text-orange-600 hover:bg-orange-200 hover:text-orange-600"
-        >
-          <SketchLogoIcon className="mr-2 h-4 w-4" />
-          {row.getValue("points")}
-        </Button>
-      </div>
-    )
-  }
-]
 const DashboardTable = () => {
   const [sorting, setSorting] = useState([])
 
@@ -124,12 +69,72 @@ const DashboardTable = () => {
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
 
-  const { a, loading, error } = useGetData(
-    "https://humanpow.bitpow.org/api/dashboard"
-  )
-  console.log(a, "a")
-  console.log(loading, "loading")
-  console.log(error, "error")
+  const { getData } = useGetData("https://humanpow.bitpow.org/api/dashboard")
+  console.log(getData, "getData")
+
+  if (getData) {
+    const result = Object.values(getData.users).map((item) => {
+      return {
+        id: item.addr,
+        ...item,
+        role: "Project Management",
+        recentlyActive: "Jul 6, 2023",
+        joinedTime: "Jul 6, 2023"
+      }
+    })
+    console.log(result, "result")
+  }
+
+  const columns = [
+    {
+      accessorKey: "name",
+      header: "Name",
+      cell: ({ row }) => (
+        <div className="capitalize">
+          <div className="flex flex-row items-center gap-4">
+            <Avatar className="rounded-sm h-16 w-16">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            {row.getValue("name")}
+          </div>
+        </div>
+      )
+    },
+    {
+      accessorKey: "percent",
+      header: ({ column }) => {
+        return (
+          <Button
+            className="p-0"
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            %
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("percent")}</div>
+      )
+    },
+    {
+      accessorKey: "points",
+      header: "Points earned",
+      cell: ({ row }) => (
+        <div className="capitalize">
+          <Button
+            variant="outline"
+            className="bg-orange-100 text-orange-600 hover:bg-orange-200 hover:text-orange-600"
+          >
+            <SketchLogoIcon className="mr-2 h-4 w-4" />
+            {row.getValue("points")}
+          </Button>
+        </div>
+      )
+    }
+  ]
 
   const table = useReactTable({
     data,
