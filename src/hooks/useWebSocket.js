@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const useWebSocket = (url, onMessage) => {
   const socketRef = useRef(null)
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     // 创建WebSocket连接
@@ -9,6 +10,7 @@ const useWebSocket = (url, onMessage) => {
 
     // 处理连接打开事件
     const handleOpen = () => {
+      setIsOpen(true)
       const subscriptionId = Math.random() * 100000000000000000
       socketRef.current.send(JSON.stringify(["REQ", subscriptionId, {}]))
     }
@@ -44,15 +46,22 @@ const useWebSocket = (url, onMessage) => {
       }
     }
 
+    // 处理连接关闭事件
+    const handleClose = () => {
+      setIsOpen(false)
+    }
+
     // 监听WebSocket事件
     socketRef.current.addEventListener("open", handleOpen)
     socketRef.current.addEventListener("message", handleMessage)
+    socketRef.current.addEventListener("close", handleClose)
 
     // 组件卸载时关闭WebSocket连接
     return () => {
       if (socketRef.current) {
         socketRef.current.removeEventListener("open", handleOpen)
         socketRef.current.removeEventListener("message", handleMessage)
+        socketRef.current.removeEventListener("close", handleClose)
         socketRef.current.close()
       }
     }
@@ -60,7 +69,9 @@ const useWebSocket = (url, onMessage) => {
 
   // 修改后的sendMessage函数
   const sendMessage = (message) => {
-    if (socketRef.current.readyState === WebSocket.OPEN) {
+    console.log(isOpen, "isOpen")
+    console.log(message, "message")
+    if (isOpen) {
       socketRef.current.send(message)
     } else {
       console.error("Cannot send message, WebSocket is not open")

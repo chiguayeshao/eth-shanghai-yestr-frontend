@@ -71,23 +71,24 @@ const List = ({ item }) => {
                   className="bg-orange-100 text-orange-600 hover:bg-orange-200 hover:text-orange-600"
                 >
                   <SketchLogoIcon className="mr-2 h-4 w-4" />
-                  {item.points}
+                  {item.points ? item.points : 0}
                 </Button>
                 <Button
                   variant="outline"
                   className="bg-blue-100 text-blue-400 hover:bg-blue-200 hover:text-blue-400"
                 >
                   <LinkNone2Icon className="mr-2 h-4 w-4" />
-                  {item.link}
+                  {item.link ? item.link : "lxdao"}
                 </Button>
               </div>
               <div className="flex flex-row gap-4 text-black">
                 <Button variant="outline">
-                  <ArrowUpIcon className="mr-2 h-4 w-4" /> Upvote {item.upvotes}
+                  <ArrowUpIcon className="mr-2 h-4 w-4" /> Upvote{" "}
+                  {item.upvotes ? item.upvotes : 0}
                 </Button>
                 <Button variant="outline">
                   <ArrowDownIcon className="mr-2 h-4 w-4" />
-                  Downvote {item.downvotes}
+                  Downvote {item.downvotes ? item.downvotes : 0}
                 </Button>
               </div>
             </CardFooter>

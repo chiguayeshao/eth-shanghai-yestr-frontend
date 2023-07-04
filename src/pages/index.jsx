@@ -8,6 +8,7 @@ import { Pencil2Icon } from "@radix-ui/react-icons"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import useWebSocket from "../hooks/useWebSocket"
+import { useSignMessage } from "wagmi"
 
 function timeAgo(unixTimestamp) {
   const date = new Date(unixTimestamp * 1000)
@@ -51,6 +52,10 @@ function HomePage() {
   const [items, setItems] = useState([])
   const [content, setContent] = useState("")
 
+  const { data: signature, signMessage } = useSignMessage({
+    message: content
+  })
+
   const onMessage = (content, message) => {
     const newItem = transformItem(message)
     setItems((prevItems) => {
@@ -62,19 +67,31 @@ function HomePage() {
     })
   }
 
-  const onOpen = () => {
-    console.log("WebSocket connection opened")
-  }
-
   const { websocket, sendMessage } = useWebSocket(
     "wss://humanpow.bitpow.org/relay",
-    onMessage,
-    onOpen
+    onMessage
   )
 
-  const handleSubmit = () => {
-    sendMessage(content)
-    setContent("")
+  const createEventObject = async (message, signature) => {
+    return {
+      created_at: Math.floor(Date.now() / 1000),
+      id: "0xa82765e29923a25ba87d73922731cb52a288d27411ca7edd8c413c534a9eb2d4",
+      kind: 1,
+      content: message,
+      sig: signature,
+      tags: []
+    }
+  }
+
+  const handleSubmit = async () => {
+    console.log(content, "content")
+    await signMessage()
+
+    const event = await createEventObject(content, signature)
+
+    console.log(event, "event")
+
+    sendMessage(JSON.stringify(["EVENT", event]))
   }
 
   useEffect(() => {
@@ -92,7 +109,11 @@ function HomePage() {
         <Pencil2Icon className="h-4 w-4" />
       </div>
       <div className="grid gap-2">
-        <Textarea placeholder="Example: I developed sign in with wallet feature. #points:120 #pow:https://notion.so/1234 #Cc@Tony @Bruce" />
+        <Textarea
+          placeholder="Example: I developed sign in with wallet feature. #points:120 #pow:https://notion.so/1234 #Cc@Tony @Bruce"
+          value={content}
+          onChange={(event) => setContent(event.target.value)}
+        />
         <div className="flex flex-row-reverse">
           <Button
             className="bg-teal-400 hover:bg-teal-600"
