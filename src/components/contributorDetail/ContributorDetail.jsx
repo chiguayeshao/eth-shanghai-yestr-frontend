@@ -167,42 +167,7 @@ const ContributorDetail = () => {
                   className="bg-blue-100 text-blue-400 hover:bg-blue-200 hover:text-blue-400"
                 >
                   <LinkNone2Icon className="mr-2 h-4 w-4" />
-                  linklinklinklinktr.ee/lidang
-                </Button>
-                <Button
-                  variant="outline"
-                  className="bg-blue-100 text-blue-400 hover:bg-blue-200 hover:text-blue-400"
-                >
-                  <LinkNone2Icon className="mr-2 h-4 w-4" />
-                  linklinklinklinktr.ee/lidang
-                </Button>
-                <Button
-                  variant="outline"
-                  className="bg-blue-100 text-blue-400 hover:bg-blue-200 hover:text-blue-400"
-                >
-                  <LinkNone2Icon className="mr-2 h-4 w-4" />
-                  linklinklinklinktr.ee/lidang
-                </Button>
-                <Button
-                  variant="outline"
-                  className="bg-blue-100 text-blue-400 hover:bg-blue-200 hover:text-blue-400"
-                >
-                  <LinkNone2Icon className="mr-2 h-4 w-4" />
-                  linklinklinklinktr.ee/lidang
-                </Button>
-                <Button
-                  variant="outline"
-                  className="bg-blue-100 text-blue-400 hover:bg-blue-200 hover:text-blue-400"
-                >
-                  <LinkNone2Icon className="mr-2 h-4 w-4" />
-                  linklinklinklinktr.ee/lidang
-                </Button>
-                <Button
-                  variant="outline"
-                  className="bg-blue-100 text-blue-400 hover:bg-blue-200 hover:text-blue-400"
-                >
-                  <LinkNone2Icon className="mr-2 h-4 w-4" />
-                  linklinklinklinktr.ee/lidang
+                  LX DAO
                 </Button>
               </div>
             </CardFooter>
