@@ -58,7 +58,7 @@ function HomePage() {
       if (isItemExist) {
         return prevItems
       }
-      return [...prevItems, newItem].slice(-2)
+      return [...prevItems, newItem].slice(-5)
     })
   }
 
