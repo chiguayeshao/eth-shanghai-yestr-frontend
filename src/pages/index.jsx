@@ -8,7 +8,7 @@ import { Pencil2Icon } from "@radix-ui/react-icons"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import useWebSocket from "../hooks/useWebSocket"
-import { useSignMessage } from "wagmi"
+import { useSignMessage, useAccount } from "wagmi"
 
 function timeAgo(unixTimestamp) {
   const date = new Date(unixTimestamp * 1000)
@@ -52,6 +52,7 @@ function HomePage() {
   const [items, setItems] = useState([])
   const [content, setContent] = useState("")
 
+  const { address } = useAccount()
   const { data: signature, signMessage } = useSignMessage({
     message: content
   })
@@ -73,13 +74,32 @@ function HomePage() {
   )
 
   const createEventObject = async (message, signature) => {
+    const content_array = message.split(" ")
+    let tags = []
+    for (const word of content_array) {
+      let tag
+      if (word.startsWith("#")) {
+        const pos = word.indexOf(":")
+        console.log(word, pos)
+        if (pos > -1) {
+          tag = word.slice(1, pos)
+          const value = word.slice(pos + 1)
+          tags.push(["t", tag, value])
+        } else {
+          tag = word.slice(1)
+          tags.push(["t", tag])
+        }
+      }
+    }
+
     return {
       created_at: Math.floor(Date.now() / 1000),
       id: "0xa82765e29923a25ba87d73922731cb52a288d27411ca7edd8c413c534a9eb2d4",
       kind: 1,
+      pubkey: address,
       content: message,
       sig: signature,
-      tags: []
+      tags: tags
     }
   }
 
