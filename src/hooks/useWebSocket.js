@@ -58,7 +58,16 @@ const useWebSocket = (url, onMessage) => {
     }
   }, [url, onMessage])
 
-  return socketRef.current
+  // 修改后的sendMessage函数
+  const sendMessage = (message) => {
+    if (socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(message)
+    } else {
+      console.error("Cannot send message, WebSocket is not open")
+    }
+  }
+
+  return { websocket: socketRef.current, sendMessage }
 }
 
 export default useWebSocket

@@ -24,28 +24,28 @@ import {
 } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 
-const List = () => {
+const List = ({ item }) => {
   return (
-    <div className="m-4">
-      <Card>
+    <div className="m-4 w-full">
+      <Card key={item.id}>
         <div className="flex flex-row">
           <CardHeader>
             <CardTitle>
               <Avatar className="rounded-sm h-16 w-16">
                 <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>{item.name}</AvatarFallback>
               </Avatar>
             </CardTitle>
           </CardHeader>
-          <div className="p-6 pl-0">
+          <div className="p-6 pl-0 w-full">
             <CardContent>
               <div className="flex flex-row justify-between items-center gap-4">
                 <div className="flex flex-row justify-between items-center gap-4">
                   <CardDescription className="font-semibold text-lg text-black">
-                    Harry the Helper
+                    {item.header}
                   </CardDescription>
                   <CardDescription className="text-base">
-                    2 hours ago
+                    {item.time}
                   </CardDescription>
                 </div>
                 <DropdownMenu>
@@ -62,10 +62,7 @@ const List = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              <p>
-                Card Content Card ContentCard ContentCard Card Content Card
-                ContentCard ContentCardCard Content Card ContentCard ContentCard{" "}
-              </p>
+              <p>{item.content}</p>
             </CardContent>
             <CardFooter className="flex flex-row justify-between">
               <div className="flex flex-row gap-4">
@@ -74,23 +71,23 @@ const List = () => {
                   className="bg-orange-100 text-orange-600 hover:bg-orange-200 hover:text-orange-600"
                 >
                   <SketchLogoIcon className="mr-2 h-4 w-4" />
-                  250
+                  {item.points}
                 </Button>
                 <Button
                   variant="outline"
                   className="bg-blue-100 text-blue-400 hover:bg-blue-200 hover:text-blue-400"
                 >
                   <LinkNone2Icon className="mr-2 h-4 w-4" />
-                  linklinklinklinktr.ee/lidang
+                  {item.link}
                 </Button>
               </div>
               <div className="flex flex-row gap-4 text-black">
                 <Button variant="outline">
-                  <ArrowUpIcon className="mr-2 h-4 w-4" /> Upvote 12
+                  <ArrowUpIcon className="mr-2 h-4 w-4" /> Upvote {item.upvotes}
                 </Button>
                 <Button variant="outline">
                   <ArrowDownIcon className="mr-2 h-4 w-4" />
-                  Downvote 3
+                  Downvote {item.downvotes}
                 </Button>
               </div>
             </CardFooter>

@@ -39,6 +39,10 @@ import {
 import { useForm } from "react-hook-form"
 import useGetData from "../../hooks/useGetData"
 
+const formatAddress = (address) => {
+  return address.slice(0, 4) + "..." + address.slice(-4)
+}
+
 const ContributorsTable = () => {
   const [sorting, setSorting] = useState([])
   const form = useForm()
@@ -83,7 +87,7 @@ const ContributorsTable = () => {
             </Avatar>
             <Button
               variant="link"
-              onClick={() => handleUserClick(row.getValue("address"))}
+              onClick={() => handleUserClick(row.getValue("addr"))}
             >
               {row.getValue("name")}
             </Button>
@@ -95,7 +99,7 @@ const ContributorsTable = () => {
       accessorKey: "addr",
       header: "ETH Wallet",
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("addr")}</div>
+        <div className="capitalize">{formatAddress(row.getValue("addr"))}</div>
       )
     },
     {
